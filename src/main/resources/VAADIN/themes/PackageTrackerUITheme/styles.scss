@@ -1,0 +1,7 @@
+@import "addons.scss";
+@import "PackageTrackerUITheme.scss";
+
+.PackageTrackerUITheme {
+  @include addons;
+  @include PackageTrackerUITheme;
+}
