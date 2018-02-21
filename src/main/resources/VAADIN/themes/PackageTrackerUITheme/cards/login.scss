@@ -1,0 +1,11 @@
+@keyframes loginAnimation {
+  0%  { left:-5px; }
+  50% { left:5px; }
+  100%  { left:-5px; }
+}
+
+.loginAnimation {
+  position: relative;
+  animation: loginAnimation 2.0s infinite ease;
+  width: 300px;
+}

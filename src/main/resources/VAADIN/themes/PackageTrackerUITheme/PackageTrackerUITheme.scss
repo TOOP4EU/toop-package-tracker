@@ -1,19 +1,10 @@
 @import "../valo/valo.scss";
 
+@import "cards/cards.scss";
+
 @keyframes slice {
     from { opacity: 0; left: 2000px; }
     to { opacity: 1; left: 800px; }
-}
-
-@keyframes truckAnimation {
-    from { bottom: 0px; }
-    to { bottom: 2px; }
-}
-
-@keyframes loginAnimation {
-  0%  { left:-5px; }
-  50% { left:5px; }
-  100%  { left:-5px; }
 }
 
 @mixin PackageTrackerUITheme {
@@ -26,7 +17,7 @@
 
   /* White background for the entire UI */
   .v-ui {
-    background: url("img/sample-bg.png")
+    background: url("img/sample-bg.png");
     overflow: hidden;
   }
 
@@ -37,16 +28,5 @@
     height: 100%;
     width: 400px;
     left: 800px;
-  }
-
-  .truckAnimation {
-    position: relative;
-    animation: truckAnimation 0.1s infinite ease;
-  }
-
-  .loginAnimation {
-    position: relative;
-    animation: loginAnimation 2.0s infinite ease;
-    width: 300px;
   }
 }

@@ -1,0 +1,9 @@
+@keyframes truckAnimation {
+  from { bottom: 0px; }
+  to { bottom: 2px; }
+}
+
+.truckAnimation {
+  position: relative;
+  animation: truckAnimation 0.1s infinite ease;
+}
