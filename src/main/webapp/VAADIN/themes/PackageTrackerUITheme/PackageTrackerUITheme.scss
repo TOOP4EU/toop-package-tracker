@@ -12,13 +12,12 @@
 
   .mainLayout {
     width: 10000px;
-    overflow: hidden;
+    //overflow: hidden;
   }
 
   /* White background for the entire UI */
   .v-ui {
     background: url("img/sample-bg.png");
-    overflow: hidden;
   }
 
   .slice {
@@ -28,5 +27,29 @@
     height: 100%;
     width: 400px;
     left: 800px;
+  }
+
+  .titleLabel {
+    font-size: 24px;
+    color: black;
+    font-weight: 600;
+  }
+
+  .logLayout {
+    background-color: #fff;
+    border: 1px solid #989898;
+    color: black;
+    padding: 4px;
+
+    .v-spacing {
+      margin: -4px;
+    }
+  }
+
+  .logLabel {
+    font-size: 16px;
+    border: 1px solid #989898;
+    padding: 4px;
+    width: 100%;
   }
 }

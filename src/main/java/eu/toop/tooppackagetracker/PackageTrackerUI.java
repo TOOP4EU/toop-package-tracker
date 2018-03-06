@@ -3,20 +3,18 @@ package eu.toop.tooppackagetracker;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Push;
 import com.vaadin.annotations.Theme;
+import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.*;
+import eu.toop.tooppackagetracker.detail.DetailView;
 import eu.toop.tooppackagetracker.parallax.ParallaxLayout;
+import eu.toop.tooppackagetracker.parallax.ParallaxView;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-
-@com.vaadin.annotations.JavaScript({
-        "vaadin://jquery/jquery-3.3.1.js",
-        "vaadin://js/package-tracker.js",
-})
 
 @Theme("PackageTrackerUITheme")
 @SpringUI
@@ -27,37 +25,29 @@ public class PackageTrackerUI extends UI implements Receiver.Listener {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(PackageTrackerUI.class);
 
-  final VerticalLayout mainLayout = new VerticalLayout();
-  final ParallaxLayout parallaxLayout = new ParallaxLayout();
-  JavaScript javaScript;
+  private Navigator navigator;
 
   @Autowired
   private Receiver kafkaConsumer;
 
   @Override
   public void receive(ConsumerRecord<?, ?> consumerRecord) {
-    String message = consumerRecord.value().toString();
-    parallaxLayout.newSlice(message);
-    javaScript.execute("newSlice()");
-    this.access(new Runnable() {
-      @Override
-      public void run() {
-        push();
-      }
-    });
+
   }
 
   @Override
   protected void init(VaadinRequest request) {
-    mainLayout.setHeight("100%");
-    mainLayout.setWidth("100000px");
-    mainLayout.setStyleName("mainLayout");
-    setContent(mainLayout);
+    //kafkaConsumer.addListener(this);
+    ParallaxView parallaxView = new ParallaxView (this, JavaScript.getCurrent ());
+    DetailView detailView = new DetailView (this);
 
-    kafkaConsumer.addListener(this);
-    javaScript = JavaScript.getCurrent();
+    navigator = new Navigator (this, this);
+    navigator.addView("", parallaxView);
+    navigator.addView(ParallaxView.class.getName(), parallaxView);
+    navigator.addView("detail", detailView);
 
-    mainLayout.addComponent(parallaxLayout);
+    kafkaConsumer.addListener(parallaxView);
+    kafkaConsumer.addListener(detailView);
   }
 
 
