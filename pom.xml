@@ -68,6 +68,7 @@
       <version>2.0.0.RELEASE</version>
       <scope>test</scope>
     </dependency>
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

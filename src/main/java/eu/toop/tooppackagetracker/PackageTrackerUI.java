@@ -8,7 +8,10 @@ import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.*;
 import eu.toop.tooppackagetracker.parallax.ParallaxLayout;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 @com.vaadin.annotations.JavaScript({
         "vaadin://jquery/jquery-3.3.1.js",
@@ -19,15 +22,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 @SpringUI
 @SuppressWarnings("serial")
 @Push
-@PreserveOnRefresh
+//@PreserveOnRefresh
 public class PackageTrackerUI extends UI implements Receiver.Listener {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(PackageTrackerUI.class);
 
   final VerticalLayout mainLayout = new VerticalLayout();
   final ParallaxLayout parallaxLayout = new ParallaxLayout();
   JavaScript javaScript;
-
-  @Autowired
-  private Sender kafkaProducer;
 
   @Autowired
   private Receiver kafkaConsumer;
@@ -56,5 +58,16 @@ public class PackageTrackerUI extends UI implements Receiver.Listener {
     javaScript = JavaScript.getCurrent();
 
     mainLayout.addComponent(parallaxLayout);
+  }
+
+
+  @Override
+  public void attach() {
+    super.attach();
+  }
+
+  @Override
+  public void detach() {
+    super.detach();
   }
 }

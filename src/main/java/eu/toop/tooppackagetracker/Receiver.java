@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
+import com.vaadin.ui.UIDetachedException;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.annotation.TopicPartition;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -26,7 +28,11 @@ public class Receiver {
     LOGGER.info("received payload='{}'", consumerRecord.toString());
 
     for (Listener listener : listeners) {
-      listener.receive(consumerRecord);
+      try {
+        listener.receive(consumerRecord);
+      } catch (UIDetachedException e) {
+        
+      }
     }
 
     latch.countDown();

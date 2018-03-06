@@ -12,6 +12,7 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @EnableKafka
 @Configuration
@@ -27,9 +28,10 @@ public class KafkaConsumerConfig {
   public ConsumerFactory<String, String> consumerFactory() {
     Map<String, Object> props = new HashMap<>();
     props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServer);
-    props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
+    props.put(ConsumerConfig.GROUP_ID_CONFIG, "toop-group-" + UUID.randomUUID());
     props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
     props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+
     return new DefaultKafkaConsumerFactory<>(props);
   }
 
