@@ -19,6 +19,7 @@ public class DetailView extends VerticalLayout implements View, Receiver.Listene
   public DetailView (UI ui) {
     _ui = ui;
 
+    setStyleName ("DetailView");
     setSizeUndefined ();
     setWidth ("100%");
 

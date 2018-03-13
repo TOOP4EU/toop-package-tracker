@@ -17,7 +17,13 @@
 
   /* White background for the entire UI */
   .v-ui {
-    background: url("img/sample-bg.png");
+    background-color: #2f3534;
+    /* background: url("img/sample-bg.png"); */
+
+    .DetailView {
+      background-color: #2f3534;
+      border-top: 8px solid #31baff;
+    }
   }
 
   .slice {
@@ -30,16 +36,18 @@
   }
 
   .titleLabel {
-    font-size: 24px;
-    color: black;
+    font-size: 30px;
+    color: #ddf4ff;
     font-weight: 600;
   }
 
   .logLayout {
-    background-color: #fff;
+    background-color: black;
     border: 1px solid #989898;
-    color: black;
+    color: white;
     padding: 4px;
+    font-weight: 600;
+    border-radius: 6px;
 
     .v-spacing {
       margin: -4px;
@@ -47,9 +55,12 @@
   }
 
   .logLabel {
-    font-size: 16px;
-    border: 1px solid #989898;
-    padding: 4px;
+    font-size: 20px;
+    /* border: 1px solid #989898; */
+    padding: 8px;
     width: 100%;
+    white-space: normal;
+    border-left: 8px solid #31baff;
+    margin: 2px;
   }
 }

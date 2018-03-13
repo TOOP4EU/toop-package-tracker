@@ -25,6 +25,7 @@ public class ParallaxView extends VerticalLayout implements View, Receiver.Liste
     _ui = ui;
     _javaScript = javascript;
 
+    setStyleName ("ParallaxView");
     setWidth ("100000px");
     setHeight ("100%");
 
