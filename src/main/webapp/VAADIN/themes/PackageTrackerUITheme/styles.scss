@@ -4,4 +4,9 @@
 .PackageTrackerUITheme {
   @include addons;
   @include PackageTrackerUITheme;
+
+  body {
+    overflow: auto !important;
+    background-color: #2f3534 !important;
+  }
 }

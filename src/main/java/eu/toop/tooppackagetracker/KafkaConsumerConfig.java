@@ -31,6 +31,7 @@ public class KafkaConsumerConfig {
     props.put(ConsumerConfig.GROUP_ID_CONFIG, "toop-group-" + UUID.randomUUID());
     props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
     props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+    props.put("topic", "toop-no");
 
     return new DefaultKafkaConsumerFactory<>(props);
   }

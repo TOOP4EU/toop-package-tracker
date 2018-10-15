@@ -16,8 +16,18 @@
   }
 
   /* White background for the entire UI */
+  body {
+    overflow: auto !important;
+    background-color: #2f3534 !important;
+  }
+
+  &.v-app {
+    overflow: auto !important;
+  }
+
   .v-ui {
     background-color: #2f3534;
+    overflow: auto !important;
     /* background: url("img/sample-bg.png"); */
 
     .DetailView {
@@ -41,26 +51,60 @@
     font-weight: 600;
   }
 
-  .logLayout {
+  .leftSide {
+    padding: 0px;
+  }
+
+  .rightSide {
     background-color: black;
     border: 1px solid #989898;
+    border-radius: 6px;
+    padding: 0px;
+  }
+
+  .logLayout {
     color: white;
     padding: 4px;
     font-weight: 600;
-    border-radius: 6px;
 
     .v-spacing {
       margin: -4px;
     }
   }
 
+  .v-slot-logLayout {
+    overflow-y: scroll;
+  }
+
+  .v-caption-rightSide {
+    font-size: 16px;
+    color: #ddf4ff;
+    font-weight: 600;
+  }
+
   .logLabel {
-    font-size: 20px;
+    font-size: 16px;
     /* border: 1px solid #989898; */
     padding: 8px;
     width: 100%;
     white-space: normal;
     border-left: 8px solid #31baff;
     margin: 2px;
+  }
+
+  .v-caption-topicSelector {
+    font-size: 16px;
+    color: #ddf4ff;
+    font-weight: 600;
+  }
+
+  .v-select-topicSelector {
+    .v-select-select {
+      background: none;
+      background-color: black;
+      font-size: 16px;
+      color: #ddf4ff;
+      font-weight: 600;
+    }
   }
 }
