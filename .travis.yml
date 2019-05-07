@@ -1,4 +1,4 @@
-dist: trusty
+dist: xenial
 sudo: required
 language: java
 
@@ -20,20 +20,33 @@ zk+LoPyf8m56UoVxkOVcttf9Jjj+EDaXze7nkcj0yeS6EpJmcTT4aTLErNIa8A1pyn6RQUQAgn2aeHbo
 Jod3jdMg64YEoUOYvvLNNSeevyVB3o766KfMo2/JgZCvDev6YOXXZCCaAu03uS+2YhEsrQGe3z6HVKjfKBVzxAc3ymvheXFVGE/kE+Ct0XrBf0IzODJD7Pad9zhPhfGMLC/N/URn3pD/PgMjVOhntQVyIdOI+pzI
 VDKetwV7DMY6XpujKUuEwRpnMS8FfwbXfnObYVjE+HxZBmMgEYh6awld7DtHBGVXgAqF6mRznCdgTnDhlQO6i9mlWuA9UlaeYSVtd0ajMSOyHu9DBNACHdGYtne+N3d8fVkueL3j2s/1xmJS5R8XRfRaDh5E1U3M
 3fBv0auJ+6L/KUD7Z12EMEPFnMj1P62QcDuvW2NqLJvw/x61CnqWNw="
-   
-jdk:
-  - openjdk8
   
 install:
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -U -P jdeps
-
-script:
-  -  mvn test -B -P coverage sonar:sonar
   
 cache:
   directories:
     - $HOME/.m2
 
-after_success:
-  - mvn deploy --settings travis-settings.xml -DskipTests=true -B -P travis-deploy
-  - bash <(curl -s https://codecov.io/bash)
+jobs:
+  include:
+    - stage: test
+      jdk: openjdk8
+      script:
+        - mvn test -B -P coverage sonar:sonar
+      after_success:
+        - mvn deploy --settings travis-settings.xml -DskipTests=true -B -P travis-deploy
+        - bash <(curl -s https://codecov.io/bash)
+    - stage: test
+      jdk: openjdk11
+      script:
+        - mvn test -B
+    - stage: test
+      jdk: oraclejdk11
+      script:
+        - mvn test -B
+    - stage: test
+      jdk: openjdk12
+      script:
+        - mvn test -B
+  
