@@ -3,6 +3,16 @@
 This software is only deployed once by the TOOP Playground maintainers.
 Pilot partners MUST not deploy this.
 
+Public URL: 
+* UI `http://tracker.acc.exchange.toop.eu`
+* UI details: `http://tracker.acc.exchange.toop.eu/detail`
+
+URL inside the VPN:
+* UI: `http://tracker.acc.exchange.toop.eu:7074/`
+* UI details: `http://tracker.acc.exchange.toop.eu:7074/detail`
+* Zookeeper server `http://tracker.acc.exchange.toop.eu:2181/`´
+* Kafka Server: `http://tracker.acc.exchange.toop.eu:7073/`´
+
 ## Configuration
 
 Current version: Kafka 2.11
