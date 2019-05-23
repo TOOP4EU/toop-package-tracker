@@ -5,11 +5,11 @@ Pilot partners MUST not deploy this.
 
 Public URL: 
 * UI `http://tracker.acc.exchange.toop.eu`
-* UI details: `http://tracker.acc.exchange.toop.eu/detail`
+* UI details: `http://tracker.acc.exchange.toop.eu/#!detail`
 
 URL inside the VPN:
 * UI: `http://tracker.acc.exchange.toop.eu:7074/`
-* UI details: `http://tracker.acc.exchange.toop.eu:7074/detail`
+* UI details: `http://tracker.acc.exchange.toop.eu:7074/#!detail`
 * Zookeeper server `http://tracker.acc.exchange.toop.eu:2181/`´
 * Kafka Server: `http://tracker.acc.exchange.toop.eu:7073/`´
 
