@@ -31,6 +31,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 @Theme("PackageTrackerUITheme")
 @SpringUI
 @SuppressWarnings("serial")
@@ -41,9 +45,7 @@ public class PackageTrackerUI extends UI implements Receiver.Listener {
   private static final Logger LOGGER = LoggerFactory.getLogger(PackageTrackerUI.class);
 
   private Navigator navigator;
-
-  @Autowired
-  private Receiver kafkaConsumer;
+  final static HashMap<String, Receiver> kafkaConsumers = new HashMap<> ();
 
   @Override
   public void receive(ConsumerRecord<?, ?> consumerRecord) {
@@ -52,17 +54,13 @@ public class PackageTrackerUI extends UI implements Receiver.Listener {
 
   @Override
   protected void init(VaadinRequest request) {
-    //kafkaConsumer.addListener(this);
     ParallaxView parallaxView = new ParallaxView (this, JavaScript.getCurrent ());
-    DetailView detailView = new DetailView (this);
+    DetailView detailView = new DetailView (this, JavaScript.getCurrent ());
 
     navigator = new Navigator (this, this);
     navigator.addView("", parallaxView);
     navigator.addView(ParallaxView.class.getName(), parallaxView);
     navigator.addView("detail", detailView);
-
-    kafkaConsumer.addListener(parallaxView);
-    kafkaConsumer.addListener(detailView);
   }
 
 
@@ -74,5 +72,10 @@ public class PackageTrackerUI extends UI implements Receiver.Listener {
   @Override
   public void detach() {
     super.detach();
+  }
+
+  public HashMap<String, Receiver> getKafkaConsumers () {
+
+    return kafkaConsumers;
   }
 }
