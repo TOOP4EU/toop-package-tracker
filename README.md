@@ -22,6 +22,12 @@ The Kafka configuration file is located at `/opt/kafka/config/server.properties`
 ## Deployment
 
 1. Close down Tracker, Kafka and Zookeeper processes.
-2. Start Zookeeper server first, using `/opt/kafka/bin/zookeeper-server-start.sh &`
-3. Start Kafka server using `/opt/kafka/bin/kafka-server-start.sh &`
+    1. `service tracker stop`
+    1. Check with `ps -ef | grep java`
+    1. `/opt/kafka/bin/kafka-server-stop.sh`
+    1. Check with `ps -ef | grep kafka`
+    1. `/opt/kafka/bin/zookeeper-server-stop.sh`
+    1. Check with `ps -ef | grep zookeeper`
+2. Start Zookeeper server first, using `/opt/kafka/bin/zookeeper-server-start.sh /opt/kafka/config/zookeeper.properties &`
+3. Start Kafka server using `/opt/kafka/bin/kafka-server-start.sh /opt/kafka/config/server.properties &`
 4. Start the Tracker service (`service tracker start`)
