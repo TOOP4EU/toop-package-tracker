@@ -36,9 +36,9 @@ import com.vaadin.ui.ListSelect;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
+import eu.toop.tooppackagetracker.IReceiverListener;
 import eu.toop.tooppackagetracker.PackageTrackerUI;
 import eu.toop.tooppackagetracker.Receiver;
-import eu.toop.tooppackagetracker.IReceiverListener;
 
 @com.vaadin.annotations.JavaScript ({ "vaadin://jquery/jquery-3.3.1.js", "vaadin://js/package-tracker.js", })
 public class DetailView extends VerticalLayout implements View, IReceiverListener
@@ -91,6 +91,7 @@ public class DetailView extends VerticalLayout implements View, IReceiverListene
 
     final Map <String, List <PartitionInfo>> allTopics = Receiver.getAllTopics ();
     final List <String> aSortedTopics = new ArrayList <> (allTopics.size ());
+    aSortedTopics.addAll (allTopics.keySet ());
     aSortedTopics.sort (Comparator.naturalOrder ());
 
     final ListSelect <String> topicSelector = new ListSelect <> ("Select which topics to view:", aSortedTopics);

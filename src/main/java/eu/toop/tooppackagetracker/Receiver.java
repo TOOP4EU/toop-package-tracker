@@ -67,7 +67,7 @@ public class Receiver
   public Receiver (final String topic)
   {
     final Map <String, Object> props;
-    if (true)
+    if (false)
     {
       props = new HashMap <> ();
       props.put (ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "toop-tracker.dsv.su.se:7073");
@@ -117,7 +117,7 @@ public class Receiver
   public static Map <String, List <PartitionInfo>> getAllTopics ()
   {
     final Map <String, Object> props;
-    if (true)
+    if (false)
     {
       props = new HashMap <> ();
       props.put (ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "toop-tracker.dsv.su.se:7073");
