@@ -15,28 +15,26 @@
  */
 package eu.toop.tooppackagetracker.parallax;
 
-import com.vaadin.navigator.View;
-import com.vaadin.ui.JavaScript;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
-import eu.toop.tooppackagetracker.Receiver;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
-@com.vaadin.annotations.JavaScript({
-  "vaadin://jquery/jquery-3.3.1.js",
-  "vaadin://js/package-tracker.js",
-})
+import com.vaadin.navigator.View;
+import com.vaadin.ui.JavaScript;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
 
-public class ParallaxView extends VerticalLayout implements View, Receiver.Listener {
+import eu.toop.tooppackagetracker.Receiver;
 
-  private UI _ui;
+@com.vaadin.annotations.JavaScript ({ "vaadin://jquery/jquery-3.3.1.js", "vaadin://js/package-tracker.js", })
+public class ParallaxView extends VerticalLayout implements View, Receiver.Listener
+{
+  private final UI _ui;
   JavaScript _javaScript;
 
-  final VerticalLayout mainLayout = new VerticalLayout();
-  final ParallaxLayout parallaxLayout = new ParallaxLayout();
+  final VerticalLayout mainLayout = new VerticalLayout ();
+  final ParallaxLayout parallaxLayout = new ParallaxLayout ();
 
-  public ParallaxView (UI ui, JavaScript javascript) {
+  public ParallaxView (final UI ui, final JavaScript javascript)
+  {
     _ui = ui;
     _javaScript = javascript;
 
@@ -44,23 +42,19 @@ public class ParallaxView extends VerticalLayout implements View, Receiver.Liste
     setWidth ("100000px");
     setHeight ("100%");
 
-    mainLayout.setHeight("100%");
-    mainLayout.setWidth("100000px");
-    mainLayout.setStyleName("mainLayout");
+    mainLayout.setHeight ("100%");
+    mainLayout.setWidth ("100000px");
+    mainLayout.setStyleName ("mainLayout");
     addComponent (mainLayout);
-    mainLayout.addComponent(parallaxLayout);
+    mainLayout.addComponent (parallaxLayout);
   }
 
   @Override
-  public void receive (ConsumerRecord<?, ?> consumerRecord) {
-    String message = consumerRecord.value().toString();
-    parallaxLayout.newSlice(message);
-    _javaScript.execute("newSlice()");
-    _ui.access(new Runnable() {
-      @Override
-      public void run() {
-        _ui.getCurrent ().push();
-      }
-    });
+  public void receive (final ConsumerRecord <?, ?> consumerRecord)
+  {
+    final String message = consumerRecord.value ().toString ();
+    parallaxLayout.newSlice (message);
+    _javaScript.execute ("newSlice()");
+    _ui.access ( () -> UI.getCurrent ().push ());
   }
 }

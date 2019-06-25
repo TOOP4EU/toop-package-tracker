@@ -15,29 +15,33 @@
  */
 package eu.toop.tooppackagetracker.parallax;
 
-import com.vaadin.ui.HorizontalLayout;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParallaxLayout extends HorizontalLayout {
+import com.vaadin.ui.HorizontalLayout;
 
-  private List<Slice> slices = new ArrayList<>();
+public class ParallaxLayout extends HorizontalLayout
+{
+  private final List <Slice> slices = new ArrayList <> ();
 
-  public ParallaxLayout() {
-    setHeight("100%");
+  public ParallaxLayout ()
+  {
+    setHeight ("100%");
   }
 
-  public void newSlice(String message) {
-    Slice slice = new Slice();
-    slice.addSlotItem(message);
-    addComponent(slice);
-    slices.add(slice);
+  public void newSlice (final String message)
+  {
+    final Slice slice = new Slice ();
+    slice.addSlotItem (message);
+    addComponent (slice);
+    slices.add (slice);
   }
 
-  public void clear() {
-    for (Slice slice : slices) {
-      removeComponent(slice);
+  public void clear ()
+  {
+    for (final Slice slice : slices)
+    {
+      removeComponent (slice);
     }
   }
 }
