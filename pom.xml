@@ -66,13 +66,6 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
-      <dependency>
-        <groupId>com.helger</groupId>
-        <artifactId>ph-commons-parent-pom</artifactId>
-        <version>9.3.4</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -100,11 +93,6 @@
     </dependency>
 
     <dependency>
-      <groupId>com.helger</groupId>
-      <artifactId>ph-commons</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <scope>test</scope>
@@ -116,6 +104,7 @@
       <version>2.0.6.RELEASE</version>
       <scope>test</scope>
     </dependency>
+    <!-- does not work in Jetty out of the bock because of web sockets bla bla -->
   </dependencies>
 
   <build>
@@ -133,6 +122,7 @@
         <targetPath>${project.build.directory}/test-classes</targetPath>
       </resource>
     </resources>
+
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>

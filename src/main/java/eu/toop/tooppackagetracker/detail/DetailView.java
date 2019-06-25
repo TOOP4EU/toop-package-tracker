@@ -17,6 +17,8 @@ package eu.toop.tooppackagetracker.detail;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +28,6 @@ import org.apache.kafka.common.PartitionInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.helger.commons.collection.CollectionHelper;
 import com.vaadin.navigator.View;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.JavaScript;
@@ -41,10 +42,10 @@ import eu.toop.tooppackagetracker.Receiver;
 @com.vaadin.annotations.JavaScript ({ "vaadin://jquery/jquery-3.3.1.js", "vaadin://js/package-tracker.js", })
 public class DetailView extends VerticalLayout implements View, Receiver.Listener
 {
-
   private static final Logger LOGGER = LoggerFactory.getLogger (DetailView.class);
+
   private final PackageTrackerUI _ui;
-  JavaScript _javaScript;
+  private final JavaScript _javaScript;
 
   private final VerticalLayout logLayout = new VerticalLayout ();
 
@@ -87,9 +88,10 @@ public class DetailView extends VerticalLayout implements View, Receiver.Listene
     logLayout.setStyleName ("logLayout");
 
     final Map <String, List <PartitionInfo>> allTopics = Receiver.getAllTopics ();
+    final List <String> aSortedTopics = new ArrayList <> (allTopics.size ());
+    aSortedTopics.sort (Comparator.naturalOrder ());
 
-    final ListSelect <String> topicSelector = new ListSelect <> ("Select which topics to view:",
-                                                                 CollectionHelper.getSorted (allTopics.keySet ()));
+    final ListSelect <String> topicSelector = new ListSelect <> ("Select which topics to view:", aSortedTopics);
     topicSelector.setStyleName ("topicSelector");
     topicSelector.setHeight (100, Unit.PERCENTAGE);
     topicSelector.setWidth (100.0f, Unit.PERCENTAGE);
@@ -97,7 +99,7 @@ public class DetailView extends VerticalLayout implements View, Receiver.Listene
 
     topicSelector.addValueChangeListener (event -> {
       logLayout.removeAllComponents ();
-      for (final String topic : allTopics.keySet ())
+      for (final String topic : aSortedTopics)
       {
         final boolean bSelectedTopic = event.getValue ().contains (topic);
         if (bSelectedTopic)
