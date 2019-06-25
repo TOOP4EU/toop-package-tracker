@@ -35,6 +35,8 @@ import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.listener.MessageListener;
 import org.springframework.kafka.listener.config.ContainerProperties;
 
+import com.vaadin.ui.UIDetachedException;
+
 public class Receiver
 {
   private static final Logger LOGGER = LoggerFactory.getLogger (Receiver.class);
@@ -64,15 +66,27 @@ public class Receiver
 
   public Receiver (final String topic)
   {
-    final DefaultKafkaConsumerFactory <String, String> kafkaConsumerFactory = new DefaultKafkaConsumerFactory <> (Collections.unmodifiableMap (PROPS),
+    final Map <String, Object> props;
+    if (true)
+    {
+      props = new HashMap <> ();
+      props.put (ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "toop-tracker.dsv.su.se:7073");
+      props.put (ConsumerConfig.GROUP_ID_CONFIG, "toop-group");
+      props.put (ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
+      props.put (ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false");
+    }
+    else
+      props = Collections.unmodifiableMap (PROPS);
+
+    final DefaultKafkaConsumerFactory <String, String> kafkaConsumerFactory = new DefaultKafkaConsumerFactory <> (props,
                                                                                                                   new StringDeserializer (),
                                                                                                                   new StringDeserializer ());
 
     final ContainerProperties containerProperties = new ContainerProperties (topic);
     containerProperties.setSyncCommits (false);
     containerProperties.setMessageListener ((MessageListener <String, String>) consumerRecord -> {
-      // consumedMessages.add(record.value());
-      LOGGER.info ("received payload='{}'", consumerRecord.toString ());
+      if (LOGGER.isInfoEnabled ())
+        LOGGER.info ("received payload='" + consumerRecord.toString () + "'");
 
       for (final IReceiverListener listener : listeners)
       {
@@ -80,7 +94,7 @@ public class Receiver
         {
           listener.receive (consumerRecord);
         }
-        catch (final Exception e)
+        catch (final UIDetachedException e)
         {}
       }
     });
@@ -102,7 +116,19 @@ public class Receiver
 
   public static Map <String, List <PartitionInfo>> getAllTopics ()
   {
-    try (final KafkaConsumer <String, String> consumer = new KafkaConsumer <> (Collections.unmodifiableMap (PROPS),
+    final Map <String, Object> props;
+    if (true)
+    {
+      props = new HashMap <> ();
+      props.put (ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "toop-tracker.dsv.su.se:7073");
+      props.put (ConsumerConfig.GROUP_ID_CONFIG, "toop-group");
+      props.put (ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
+      props.put (ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false");
+    }
+    else
+      props = Collections.unmodifiableMap (PROPS);
+
+    try (final KafkaConsumer <String, String> consumer = new KafkaConsumer <> (props,
                                                                                new StringDeserializer (),
                                                                                new StringDeserializer ()))
     {
