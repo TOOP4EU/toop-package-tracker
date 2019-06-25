@@ -15,7 +15,7 @@ URL inside the VPN:
 
 ## Configuration
 
-Current version: Kafka 2.11
+Current version: Kafka 2.12
 
 The Kafka configuration file is located at `/opt/kafka/config/server.properties`
 
@@ -28,6 +28,6 @@ The Kafka configuration file is located at `/opt/kafka/config/server.properties`
     1. Check with `ps -ef | grep kafka`
     1. `/opt/kafka/bin/zookeeper-server-stop.sh`
     1. Check with `ps -ef | grep zookeeper`
-2. Start Zookeeper server first, using `/opt/kafka/bin/zookeeper-server-start.sh /opt/kafka/config/zookeeper.properties &`
-3. Start Kafka server using `/opt/kafka/bin/kafka-server-start.sh /opt/kafka/config/server.properties &`
+2. Start Zookeeper server first, using `sudo /opt/kafka/bin/zookeeper-server-start.sh /opt/kafka/config/zookeeper.properties &`
+3. Start Kafka server using `sudo /opt/kafka/bin/kafka-server-start.sh /opt/kafka/config/server.properties &`
 4. Start the Tracker service (`service tracker start`)

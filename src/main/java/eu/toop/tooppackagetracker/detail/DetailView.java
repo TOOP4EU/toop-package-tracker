@@ -100,20 +100,15 @@ public class DetailView extends VerticalLayout implements View, Receiver.Listene
       for (final String topic : allTopics.keySet ())
       {
         final boolean bSelectedTopic = event.getValue ().contains (topic);
-
         if (bSelectedTopic)
         {
           if (!isSubscribedToKafkaTopic (topic))
-          {
             trySubscribeToKafkaTopic (topic);
-          }
         }
         else
         {
           if (isSubscribedToKafkaTopic (topic))
-          {
             tryUnsubscribeToKafkaTopic (topic);
-          }
         }
       }
     });
@@ -139,29 +134,22 @@ public class DetailView extends VerticalLayout implements View, Receiver.Listene
 
   public boolean isSubscribedToKafkaTopic (final String topic)
   {
-    if (_ui.getKafkaConsumers ().containsKey (topic))
-    {
-      final Receiver kafkaConsumer = _ui.getKafkaConsumers ().get (topic);
-      if (kafkaConsumer != null && kafkaConsumer.getListeners ().contains (this))
-        return true;
-    }
-    return false;
+    final Receiver kafkaConsumer = _ui.getKafkaConsumers ().get (topic);
+    return kafkaConsumer != null && kafkaConsumer.getListeners ().contains (this);
   }
 
   public void trySubscribeToKafkaTopic (final String topic)
   {
-    if (!_ui.getKafkaConsumers ().containsKey (topic))
+    Receiver kafkaConsumer = _ui.getKafkaConsumers ().get (topic);
+    if (kafkaConsumer == null)
     {
       LOGGER.info ("Creating a new receiver!");
-      Receiver kafkaConsumer;
       kafkaConsumer = new Receiver (topic);
       kafkaConsumer.addListener (this);
       _ui.getKafkaConsumers ().put (topic, kafkaConsumer);
     }
     else
     {
-      final Receiver kafkaConsumer = _ui.getKafkaConsumers ().get (topic);
-
       if (kafkaConsumer.getListeners ().contains (this))
       {
         LOGGER.info ("This component is already listening to the receiver");
@@ -176,15 +164,11 @@ public class DetailView extends VerticalLayout implements View, Receiver.Listene
 
   public void tryUnsubscribeToKafkaTopic (final String topic)
   {
-    if (_ui.getKafkaConsumers ().containsKey (topic))
+    final Receiver kafkaConsumer = _ui.getKafkaConsumers ().get (topic);
+    if (kafkaConsumer != null && kafkaConsumer.getListeners ().contains (this))
     {
-      final Receiver kafkaConsumer = _ui.getKafkaConsumers ().get (topic);
-
-      if (kafkaConsumer.getListeners ().contains (this))
-      {
-        LOGGER.info ("This component is now unsubscribing from receiver");
-        kafkaConsumer.removeListener (this);
-      }
+      LOGGER.info ("This component is now unsubscribing from receiver");
+      kafkaConsumer.removeListener (this);
     }
   }
 }
