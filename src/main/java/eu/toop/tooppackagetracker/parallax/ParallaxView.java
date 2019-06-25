@@ -22,10 +22,10 @@ import com.vaadin.ui.JavaScript;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-import eu.toop.tooppackagetracker.Receiver;
+import eu.toop.tooppackagetracker.IReceiverListener;
 
 @com.vaadin.annotations.JavaScript ({ "vaadin://jquery/jquery-3.3.1.js", "vaadin://js/package-tracker.js", })
-public class ParallaxView extends VerticalLayout implements View, Receiver.Listener
+public class ParallaxView extends VerticalLayout implements View, IReceiverListener
 {
   private final UI _ui;
   JavaScript _javaScript;

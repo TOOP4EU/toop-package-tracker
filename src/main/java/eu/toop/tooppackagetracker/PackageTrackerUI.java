@@ -16,6 +16,7 @@
 package eu.toop.tooppackagetracker;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
@@ -34,9 +35,9 @@ import eu.toop.tooppackagetracker.parallax.ParallaxView;
 @SpringUI
 @Push
 // @PreserveOnRefresh
-public class PackageTrackerUI extends UI implements Receiver.Listener
+public class PackageTrackerUI extends UI implements IReceiverListener
 {
-  private static final HashMap <String, Receiver> kafkaConsumers = new HashMap <> ();
+  private static final Map <String, Receiver> kafkaConsumers = new HashMap <> ();
 
   private Navigator navigator;
 
@@ -68,7 +69,7 @@ public class PackageTrackerUI extends UI implements Receiver.Listener
     super.detach ();
   }
 
-  public HashMap <String, Receiver> getKafkaConsumers ()
+  public static Map <String, Receiver> getKafkaConsumers ()
   {
     return kafkaConsumers;
   }

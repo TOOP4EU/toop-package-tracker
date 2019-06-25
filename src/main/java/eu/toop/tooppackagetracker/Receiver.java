@@ -16,7 +16,6 @@
 package eu.toop.tooppackagetracker;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,10 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.concurrent.CountDownLatch;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.PartitionInfo;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -37,8 +34,6 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.listener.MessageListener;
 import org.springframework.kafka.listener.config.ContainerProperties;
-
-import com.vaadin.ui.UIDetachedException;
 
 public class Receiver
 {
@@ -64,8 +59,8 @@ public class Receiver
     LOGGER.info ("Loaded Kafka receiver properties " + PROPS);
   }
 
-  private final CountDownLatch latch = new CountDownLatch (1);
-  private final List <Listener> listeners = new ArrayList <> ();
+  private final List <IReceiverListener> listeners = new ArrayList <> ();
+  private final ConcurrentMessageListenerContainer <String, String> container;
 
   public Receiver (final String topic)
   {
@@ -79,48 +74,28 @@ public class Receiver
       // consumedMessages.add(record.value());
       LOGGER.info ("received payload='{}'", consumerRecord.toString ());
 
-      for (final Listener listener : listeners)
+      for (final IReceiverListener listener : listeners)
       {
         try
         {
           listener.receive (consumerRecord);
         }
-        catch (final UIDetachedException e)
+        catch (final Exception e)
         {}
       }
-
-      latch.countDown ();
     });
 
-    final ConcurrentMessageListenerContainer <String, String> container = new ConcurrentMessageListenerContainer <> (kafkaConsumerFactory,
-                                                                                                                     containerProperties);
-
+    container = new ConcurrentMessageListenerContainer <> (kafkaConsumerFactory, containerProperties);
     container.start ();
   }
 
-  /*
-   * @KafkaListener(topics = "toop") public void receive(ConsumerRecord<?, ?>
-   * consumerRecord) { LOGGER.info("received payload='{}'",
-   * consumerRecord.toString()); for (Listener listener : listeners) { try {
-   * listener.receive(consumerRecord); } catch (UIDetachedException e) { } }
-   * latch.countDown(); }
-   */
-  public interface Listener extends Serializable
+  public void stop ()
   {
-    void receive (ConsumerRecord <?, ?> consumerRecord);
+    if (container.isRunning ())
+      container.stop ();
   }
 
-  public void addListener (final Listener listener)
-  {
-    listeners.add (listener);
-  }
-
-  public void removeListener (final Listener listener)
-  {
-    listeners.remove (listener);
-  }
-
-  public List <Listener> getListeners ()
+  public List <IReceiverListener> listeners ()
   {
     return listeners;
   }

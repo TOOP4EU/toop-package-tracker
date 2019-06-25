@@ -38,13 +38,15 @@ import com.vaadin.ui.VerticalLayout;
 
 import eu.toop.tooppackagetracker.PackageTrackerUI;
 import eu.toop.tooppackagetracker.Receiver;
+import eu.toop.tooppackagetracker.IReceiverListener;
 
 @com.vaadin.annotations.JavaScript ({ "vaadin://jquery/jquery-3.3.1.js", "vaadin://js/package-tracker.js", })
-public class DetailView extends VerticalLayout implements View, Receiver.Listener
+public class DetailView extends VerticalLayout implements View, IReceiverListener
 {
   private static final Logger LOGGER = LoggerFactory.getLogger (DetailView.class);
 
   private final PackageTrackerUI _ui;
+  @SuppressWarnings ("unused")
   private final JavaScript _javaScript;
 
   private final VerticalLayout logLayout = new VerticalLayout ();
@@ -136,41 +138,41 @@ public class DetailView extends VerticalLayout implements View, Receiver.Listene
 
   public boolean isSubscribedToKafkaTopic (final String topic)
   {
-    final Receiver kafkaConsumer = _ui.getKafkaConsumers ().get (topic);
-    return kafkaConsumer != null && kafkaConsumer.getListeners ().contains (this);
+    final Receiver kafkaConsumer = PackageTrackerUI.getKafkaConsumers ().get (topic);
+    return kafkaConsumer != null && kafkaConsumer.listeners ().contains (this);
   }
 
   public void trySubscribeToKafkaTopic (final String topic)
   {
-    Receiver kafkaConsumer = _ui.getKafkaConsumers ().get (topic);
+    Receiver kafkaConsumer = PackageTrackerUI.getKafkaConsumers ().get (topic);
     if (kafkaConsumer == null)
     {
       LOGGER.info ("Creating a new receiver!");
       kafkaConsumer = new Receiver (topic);
-      kafkaConsumer.addListener (this);
-      _ui.getKafkaConsumers ().put (topic, kafkaConsumer);
+      kafkaConsumer.listeners ().add (this);
+      PackageTrackerUI.getKafkaConsumers ().put (topic, kafkaConsumer);
     }
     else
     {
-      if (kafkaConsumer.getListeners ().contains (this))
+      if (kafkaConsumer.listeners ().contains (this))
       {
         LOGGER.info ("This component is already listening to the receiver");
       }
       else
       {
         LOGGER.info ("Re-using existing receiver");
-        kafkaConsumer.addListener (this);
+        kafkaConsumer.listeners ().add (this);
       }
     }
   }
 
   public void tryUnsubscribeToKafkaTopic (final String topic)
   {
-    final Receiver kafkaConsumer = _ui.getKafkaConsumers ().get (topic);
-    if (kafkaConsumer != null && kafkaConsumer.getListeners ().contains (this))
+    final Receiver kafkaConsumer = PackageTrackerUI.getKafkaConsumers ().get (topic);
+    if (kafkaConsumer != null && kafkaConsumer.listeners ().contains (this))
     {
       LOGGER.info ("This component is now unsubscribing from receiver");
-      kafkaConsumer.removeListener (this);
+      kafkaConsumer.listeners ().remove (this);
     }
   }
 }
