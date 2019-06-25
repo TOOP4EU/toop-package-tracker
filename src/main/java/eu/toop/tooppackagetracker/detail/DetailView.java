@@ -26,6 +26,7 @@ import org.apache.kafka.common.PartitionInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.helger.commons.collection.CollectionHelper;
 import com.vaadin.navigator.View;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.JavaScript;
@@ -87,7 +88,8 @@ public class DetailView extends VerticalLayout implements View, Receiver.Listene
 
     final Map <String, List <PartitionInfo>> allTopics = Receiver.getAllTopics ();
 
-    final ListSelect <String> topicSelector = new ListSelect <> ("Select which topics to view:", allTopics.keySet ());
+    final ListSelect <String> topicSelector = new ListSelect <> ("Select which topics to view:",
+                                                                 CollectionHelper.getSorted (allTopics.keySet ()));
     topicSelector.setStyleName ("topicSelector");
     topicSelector.setHeight (100, Unit.PERCENTAGE);
     topicSelector.setWidth (100.0f, Unit.PERCENTAGE);
@@ -97,9 +99,9 @@ public class DetailView extends VerticalLayout implements View, Receiver.Listene
       logLayout.removeAllComponents ();
       for (final String topic : allTopics.keySet ())
       {
-        final boolean selectedTopic = event.getValue ().contains (topic);
+        final boolean bSelectedTopic = event.getValue ().contains (topic);
 
-        if (selectedTopic)
+        if (bSelectedTopic)
         {
           if (!isSubscribedToKafkaTopic (topic))
           {
@@ -132,7 +134,7 @@ public class DetailView extends VerticalLayout implements View, Receiver.Listene
     logLabel.setSizeUndefined ();
     logLayout.addComponent (logLabel);
 
-    _ui.access (() -> UI.getCurrent ().push ());
+    _ui.access ( () -> UI.getCurrent ().push ());
   }
 
   public boolean isSubscribedToKafkaTopic (final String topic)
@@ -150,7 +152,6 @@ public class DetailView extends VerticalLayout implements View, Receiver.Listene
   {
     if (!_ui.getKafkaConsumers ().containsKey (topic))
     {
-
       LOGGER.info ("Creating a new receiver!");
       Receiver kafkaConsumer;
       kafkaConsumer = new Receiver (topic);

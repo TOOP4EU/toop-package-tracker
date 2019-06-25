@@ -15,5 +15,9 @@
  */
 package eu.toop.tooppackagetracker.detail;
 
-public class DetailLayout {
+public class DetailLayout
+{
+  // Is this class needed?
+  public DetailLayout ()
+  {}
 }
