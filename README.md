@@ -15,7 +15,7 @@ URL inside the VPN:
 
 ## Configuration
 
-Current version: Kafka 2.12
+Current version: Kafka 2.20
 
 The Kafka configuration file is located at `/opt/kafka/config/server.properties`
 
