@@ -3,8 +3,10 @@ package eu.toop.tooppackagetracker;
 import java.util.HashMap;
 import java.util.Map;
 
-public class KafkaConsumerManager
+public final class KafkaConsumerManager
 {
+  public static final String TOPIC_GROUP_ID = "toop-group";
+
   private static final Map <String, Receiver> kafkaConsumers = new HashMap <> ();
 
   private KafkaConsumerManager ()
