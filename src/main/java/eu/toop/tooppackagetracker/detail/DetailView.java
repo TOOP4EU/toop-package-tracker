@@ -37,6 +37,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 import eu.toop.tooppackagetracker.IReceiverListener;
+import eu.toop.tooppackagetracker.KafkaConsumerManager;
 import eu.toop.tooppackagetracker.PackageTrackerUI;
 import eu.toop.tooppackagetracker.Receiver;
 
@@ -139,19 +140,19 @@ public class DetailView extends VerticalLayout implements View, IReceiverListene
 
   public boolean isSubscribedToKafkaTopic (final String topic)
   {
-    final Receiver kafkaConsumer = PackageTrackerUI.getKafkaConsumers ().get (topic);
+    final Receiver kafkaConsumer = KafkaConsumerManager.getKafkaConsumers ().get (topic);
     return kafkaConsumer != null && kafkaConsumer.listeners ().contains (this);
   }
 
   public void trySubscribeToKafkaTopic (final String topic)
   {
-    Receiver kafkaConsumer = PackageTrackerUI.getKafkaConsumers ().get (topic);
+    Receiver kafkaConsumer = KafkaConsumerManager.getKafkaConsumers ().get (topic);
     if (kafkaConsumer == null)
     {
       LOGGER.info ("Creating a new receiver!");
       kafkaConsumer = new Receiver (topic);
       kafkaConsumer.listeners ().add (this);
-      PackageTrackerUI.getKafkaConsumers ().put (topic, kafkaConsumer);
+      KafkaConsumerManager.getKafkaConsumers ().put (topic, kafkaConsumer);
     }
     else
     {
@@ -169,7 +170,7 @@ public class DetailView extends VerticalLayout implements View, IReceiverListene
 
   public void tryUnsubscribeToKafkaTopic (final String topic)
   {
-    final Receiver kafkaConsumer = PackageTrackerUI.getKafkaConsumers ().get (topic);
+    final Receiver kafkaConsumer = KafkaConsumerManager.getKafkaConsumers ().get (topic);
     if (kafkaConsumer != null && kafkaConsumer.listeners ().contains (this))
     {
       LOGGER.info ("This component is now unsubscribing from receiver");

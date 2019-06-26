@@ -35,7 +35,7 @@ public class TrackerInitListener implements ServletContextListener
   public void contextDestroyed (final ServletContextEvent aSce)
   {
     // Try a clean shutdown
-    final Collection <Receiver> aAll = PackageTrackerUI.getKafkaConsumers ().values ();
+    final Collection <Receiver> aAll = KafkaConsumerManager.getKafkaConsumers ().values ();
     for (final Receiver aReceiver : aAll)
       aReceiver.stop ();
 

@@ -15,14 +15,11 @@
  */
 package eu.toop.tooppackagetracker;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -44,19 +41,11 @@ public class Receiver
 
   static
   {
-    try
-    {
-      final Properties p = new Properties ();
-      p.load (Receiver.class.getClassLoader ().getResourceAsStream ("application.properties"));
-      PROPS.put (ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, p.get ("kafka.bootstrap-servers"));
-      PROPS.put (ConsumerConfig.GROUP_ID_CONFIG, p.get ("kafka.consumer.group-id"));
-      PROPS.put (ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, p.get ("kafka.consumer.auto-offset-reset"));
-      PROPS.put (ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, p.get ("kafka.consumer.enable-auto-commit"));
-    }
-    catch (final IOException ex)
-    {
-      throw new UncheckedIOException (ex);
-    }
+    // This is different from application.properties and I don't know why
+    PROPS.put (ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "toop-tracker.dsv.su.se:7073");
+    PROPS.put (ConsumerConfig.GROUP_ID_CONFIG, "toop-group");
+    PROPS.put (ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
+    PROPS.put (ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false");
 
     LOGGER.info ("Loaded Kafka receiver properties " + PROPS);
   }
@@ -66,19 +55,7 @@ public class Receiver
 
   public Receiver (final String topic)
   {
-    final Map <String, Object> props;
-    if (true)
-    {
-      props = new HashMap <> ();
-      props.put (ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "toop-tracker.dsv.su.se:7073");
-      props.put (ConsumerConfig.GROUP_ID_CONFIG, "toop-group");
-      props.put (ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
-      props.put (ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false");
-    }
-    else
-      props = Collections.unmodifiableMap (PROPS);
-
-    final DefaultKafkaConsumerFactory <String, String> kafkaConsumerFactory = new DefaultKafkaConsumerFactory <> (props,
+    final DefaultKafkaConsumerFactory <String, String> kafkaConsumerFactory = new DefaultKafkaConsumerFactory <> (Collections.unmodifiableMap (PROPS),
                                                                                                                   new StringDeserializer (),
                                                                                                                   new StringDeserializer ());
 
@@ -116,19 +93,7 @@ public class Receiver
 
   public static Map <String, List <PartitionInfo>> getAllTopics ()
   {
-    final Map <String, Object> props;
-    if (true)
-    {
-      props = new HashMap <> ();
-      props.put (ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "toop-tracker.dsv.su.se:7073");
-      props.put (ConsumerConfig.GROUP_ID_CONFIG, "toop-group");
-      props.put (ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
-      props.put (ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false");
-    }
-    else
-      props = Collections.unmodifiableMap (PROPS);
-
-    try (final KafkaConsumer <String, String> consumer = new KafkaConsumer <> (props,
+    try (final KafkaConsumer <String, String> consumer = new KafkaConsumer <> (Collections.unmodifiableMap (PROPS),
                                                                                new StringDeserializer (),
                                                                                new StringDeserializer ()))
     {
