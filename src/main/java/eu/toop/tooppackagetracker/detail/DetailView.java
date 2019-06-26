@@ -18,7 +18,6 @@ package eu.toop.tooppackagetracker.detail;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -93,7 +92,7 @@ public class DetailView extends VerticalLayout implements View, IReceiverListene
     final Map <String, List <PartitionInfo>> allTopics = Receiver.getAllTopics ();
     final List <String> aSortedTopics = new ArrayList <> (allTopics.size ());
     aSortedTopics.addAll (allTopics.keySet ());
-    aSortedTopics.sort (Comparator.naturalOrder ());
+    aSortedTopics.sort ( (o1, o2) -> o1.compareToIgnoreCase (o2));
 
     final ListSelect <String> topicSelector = new ListSelect <> ("Select which topics to view:", aSortedTopics);
     topicSelector.setStyleName ("topicSelector");
@@ -144,36 +143,36 @@ public class DetailView extends VerticalLayout implements View, IReceiverListene
     return kafkaConsumer != null && kafkaConsumer.listeners ().contains (this);
   }
 
-  public void trySubscribeToKafkaTopic (final String topic)
+  public void trySubscribeToKafkaTopic (final String sTopic)
   {
-    Receiver kafkaConsumer = KafkaConsumerManager.getKafkaConsumers ().get (topic);
+    Receiver kafkaConsumer = KafkaConsumerManager.getKafkaConsumers ().get (sTopic);
     if (kafkaConsumer == null)
     {
-      LOGGER.info ("Creating a new receiver!");
-      kafkaConsumer = new Receiver (topic);
+      LOGGER.info ("Creating a new receiver for topic '" + sTopic + "'.");
+      kafkaConsumer = new Receiver (sTopic);
       kafkaConsumer.listeners ().add (this);
-      KafkaConsumerManager.getKafkaConsumers ().put (topic, kafkaConsumer);
+      KafkaConsumerManager.getKafkaConsumers ().put (sTopic, kafkaConsumer);
     }
     else
     {
       if (kafkaConsumer.listeners ().contains (this))
       {
-        LOGGER.info ("This component is already listening to the receiver");
+        LOGGER.info ("This component is already listening to the receiver for topic '" + sTopic + "'.");
       }
       else
       {
-        LOGGER.info ("Re-using existing receiver");
+        LOGGER.info ("Re-using existing receiver for topic '" + sTopic + "'.");
         kafkaConsumer.listeners ().add (this);
       }
     }
   }
 
-  public void tryUnsubscribeToKafkaTopic (final String topic)
+  public void tryUnsubscribeToKafkaTopic (final String sTopic)
   {
-    final Receiver kafkaConsumer = KafkaConsumerManager.getKafkaConsumers ().get (topic);
+    final Receiver kafkaConsumer = KafkaConsumerManager.getKafkaConsumers ().get (sTopic);
     if (kafkaConsumer != null && kafkaConsumer.listeners ().contains (this))
     {
-      LOGGER.info ("This component is now unsubscribing from receiver");
+      LOGGER.info ("This component is now unsubscribing from receiver for topic '" + sTopic + "'.");
       kafkaConsumer.listeners ().remove (this);
     }
   }

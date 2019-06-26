@@ -42,12 +42,13 @@ public class Receiver
   static
   {
     // This is different from application.properties and I don't know why
-    PROPS.put (ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "toop-tracker.dsv.su.se:7073");
+    // localhost works here, but not in application.properties
+    PROPS.put (ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, true ? "localhost:7073" : "toop-tracker.dsv.su.se:7073");
     PROPS.put (ConsumerConfig.GROUP_ID_CONFIG, "toop-group");
     PROPS.put (ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
     PROPS.put (ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false");
 
-    LOGGER.info ("Loaded Kafka receiver properties " + PROPS);
+    LOGGER.info ("Defined Kafka consumer properties " + PROPS);
   }
 
   private final List <IReceiverListener> listeners = new ArrayList <> ();
