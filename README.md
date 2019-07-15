@@ -19,6 +19,11 @@ Current version: Kafka 2.20
 
 The Kafka configuration file is located at `/opt/kafka/config/server.properties`
 
+Change to `/etc/hosts` is necessary:
+```
+83.212.75.83    snf-7825.ok-kno.grnetcloud.net    snf-7825 
+```
+
 ## Deployment
 
 1. Close down Tracker, Kafka and Zookeeper processes.
