@@ -23,6 +23,10 @@ Change to `/etc/hosts` is necessary:
 ```
 83.212.75.83    snf-7825.ok-kno.grnetcloud.net    snf-7825 
 ```
+Syntax layout:
+```
+public_ip    server_url    hostname
+```
 
 ## Deployment
 
