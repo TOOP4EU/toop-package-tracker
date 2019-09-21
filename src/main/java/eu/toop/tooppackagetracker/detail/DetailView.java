@@ -131,10 +131,28 @@ public class DetailView extends VerticalLayout implements View, IReceiverListene
 
     final Label logLabel = new Label (dateFormat.format (date) + " : " + message);
     logLabel.setStyleName ("logLabel");
+    logLabel.addStyleName (parseLogLevelColor(message));
     logLabel.setSizeUndefined ();
     logLayout.addComponent (logLabel);
 
     _ui.access ( () -> UI.getCurrent ().push ());
+  }
+
+  private String parseLogLevelColor(String message)
+  {
+    if(message == null)
+      return null;
+    if(message.startsWith("[SUCCESS]"))
+      return "successLogLabel";
+    else if(message.startsWith("[INFO]"))
+      return "infoLogLabel";
+    else if(message.startsWith("[WARN]"))
+      return "warnLogLabel";
+    else if(message.startsWith("[ERROR]"))
+      return "errorLogLabel";
+    else if(message.startsWith("[FATAL_ERROR]"))
+      return "fatalErrorLogLabel";
+    return null;
   }
 
   public boolean isSubscribedToKafkaTopic (final String topic)

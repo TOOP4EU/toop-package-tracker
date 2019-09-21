@@ -90,6 +90,22 @@
     white-space: normal;
     border-left: 8px solid #31baff;
     margin: 2px;
+
+    &.successLogLabel {
+      border-left: 8px solid #5aff49;
+    }
+    &.infoLogLabel {
+      border-left: 8px solid #31baff;
+    }
+    &.warnLogLabel {
+      border-left: 8px solid #ffc13b;
+    }
+    &.errorLogLabel {
+      border-left: 8px solid #ff1a13;
+    }
+    &.fatalErrorLogLabel {
+      border-left: 8px solid #ff1f51;
+    }
   }
 
   .v-caption-topicSelector {
