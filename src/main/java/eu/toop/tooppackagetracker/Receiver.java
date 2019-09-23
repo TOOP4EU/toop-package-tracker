@@ -43,7 +43,7 @@ public class Receiver
   {
     // This is different from application.properties and I don't know why
     // localhost works here, but not in application.properties
-    PROPS.put (ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, true ? "localhost:7073" : "toop-tracker.dsv.su.se:7073");
+    PROPS.put (ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, true ? "localhost:7073" : "tracker.acc.exchange.toop.eu:7073");
     PROPS.put (ConsumerConfig.GROUP_ID_CONFIG, KafkaConsumerManager.TOPIC_GROUP_ID);
     PROPS.put (ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
     PROPS.put (ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false");
