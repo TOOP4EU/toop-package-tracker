@@ -124,12 +124,13 @@ public class DetailView extends VerticalLayout implements View, IReceiverListene
   @Override
   public void receive (final ConsumerRecord <?, ?> consumerRecord)
   {
+    final String topic = "[" + consumerRecord.topic() + "] ";
     final String message = consumerRecord.value ().toString ();
 
     final DateFormat dateFormat = new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
     final Date date = new Date ();
 
-    final Label logLabel = new Label (dateFormat.format (date) + " : " + message);
+    final Label logLabel = new Label (dateFormat.format (date) + " : " + topic + message);
     logLabel.setStyleName ("logLabel");
     logLabel.addStyleName (parseLogLevelColor(message));
     logLabel.setSizeUndefined ();
