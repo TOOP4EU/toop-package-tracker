@@ -104,7 +104,7 @@
       <version>2.0.6.RELEASE</version>
       <scope>test</scope>
     </dependency>
-    <!-- does not work in Jetty out of the bock because of web sockets bla bla -->
+    <!-- does not work in Jetty out of the box because of web sockets bla bla -->
   </dependencies>
 
   <build>
