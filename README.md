@@ -10,8 +10,8 @@ Public URL:
 URL inside the VPN:
 * UI: `http://tracker.acc.exchange.toop.eu:7074/`
 * UI details: `http://tracker.acc.exchange.toop.eu:7074/#!detail`
-* Zookeeper server `http://tracker.acc.exchange.toop.eu:2181/`´
-* Kafka Server: `http://tracker.acc.exchange.toop.eu:7073/`´
+* Zookeeper server `http://tracker.acc.exchange.toop.eu:2181/`
+* Kafka Server: `http://tracker.acc.exchange.toop.eu:7073/`
 
 ## Configuration
 
