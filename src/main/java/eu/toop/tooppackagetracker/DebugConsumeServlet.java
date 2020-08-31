@@ -16,6 +16,7 @@
 package eu.toop.tooppackagetracker;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -42,8 +43,7 @@ public class DebugConsumeServlet extends HttpServlet
   private static final Logger LOGGER = LoggerFactory.getLogger (DebugConsumeServlet.class);
 
   @Override
-  protected void doGet (final HttpServletRequest aReq, final HttpServletResponse aResp) throws ServletException,
-                                                                                        IOException
+  protected void doGet (final HttpServletRequest aReq, final HttpServletResponse aResp) throws ServletException, IOException
   {
     int nRepeats = -1;
     try
@@ -79,11 +79,7 @@ public class DebugConsumeServlet extends HttpServlet
     {
       aSB.append ("<h1>Kafka Consumer Properties (" + aProps.size () + ")</h1><ul>");
       for (final Map.Entry <String, Object> aEntry : aProps.entrySet ())
-        aSB.append ("<li><code>")
-           .append (aEntry.getKey ())
-           .append ("</code>=<code>")
-           .append (aEntry.getValue ())
-           .append ("</code></li>");
+        aSB.append ("<li><code>").append (aEntry.getKey ()).append ("</code>=<code>").append (aEntry.getValue ()).append ("</code></li>");
       aSB.append ("</ul>");
     }
 
@@ -114,7 +110,7 @@ public class DebugConsumeServlet extends HttpServlet
         aSB.append ("<h1>Consumed records (" + nRepeats + " repeats; " + nTimeout + " ms)</h1>");
         for (int i = 0; i < nRepeats; ++i)
         {
-          final ConsumerRecords <String, String> records = aConsumer.poll (nTimeout);
+          final ConsumerRecords <String, String> records = aConsumer.poll (Duration.ofMillis (nTimeout));
           for (final ConsumerRecord <String, String> record : records)
           {
             final String sRecord = "Consuming from topic = " +
