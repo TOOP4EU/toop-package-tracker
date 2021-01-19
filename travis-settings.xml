@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (C) 2018-2021 toop.eu. All rights reserved.
+    This work is protected under copyrights held by the members of the
+    TOOP Project Consortium as indicated at
+    http://wiki.ds.unipi.gr/display/TOOP/Contributors
+    (c) 2018-2021. All rights reserved.
 
-    This project is dual licensed under Apache License, Version 2.0
+    This work is dual licensed under Apache License, Version 2.0
     and the EUPL 1.2.
 
      = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
