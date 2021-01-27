@@ -36,6 +36,10 @@ package eu.toop.tooppackagetracker;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+
+import com.helger.commons.annotation.ReturnsMutableObject;
+
 public final class KafkaConsumerManager
 {
   public static final String TOPIC_GROUP_ID = "toop-group";
@@ -45,6 +49,8 @@ public final class KafkaConsumerManager
   private KafkaConsumerManager ()
   {}
 
+  @Nonnull
+  @ReturnsMutableObject
   public static Map <String, Receiver> getKafkaConsumers ()
   {
     return kafkaConsumers;

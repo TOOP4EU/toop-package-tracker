@@ -39,6 +39,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.PartitionInfo;
@@ -50,7 +52,9 @@ import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.listener.MessageListener;
 
+import com.helger.commons.annotation.ReturnsMutableCopy;
 import com.helger.config.ConfigFactory;
+import com.helger.config.IConfig;
 import com.vaadin.ui.UIDetachedException;
 
 public class Receiver
@@ -60,9 +64,8 @@ public class Receiver
 
   static
   {
-    // This is different from application.properties and I don't know why
-    // localhost works here, but not in application.properties
-    PROPS.put (ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, ConfigFactory.getDefaultConfig ().getAsString ("kafka.bootstrap-servers"));
+    final IConfig aConfig = ConfigFactory.getDefaultConfig ();
+    PROPS.put (ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, aConfig.getAsString ("kafka.bootstrap-servers"));
     PROPS.put (ConsumerConfig.GROUP_ID_CONFIG, KafkaConsumerManager.TOPIC_GROUP_ID);
     PROPS.put (ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
     PROPS.put (ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false");
@@ -106,6 +109,8 @@ public class Receiver
       container.stop ();
   }
 
+  @Nonnull
+  @ReturnsMutableCopy
   public List <IReceiverListener> listeners ()
   {
     return listeners;

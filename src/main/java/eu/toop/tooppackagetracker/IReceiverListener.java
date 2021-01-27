@@ -35,9 +35,11 @@ package eu.toop.tooppackagetracker;
 
 import java.io.Serializable;
 
+import javax.annotation.Nonnull;
+
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
 public interface IReceiverListener extends Serializable
 {
-  void receive (ConsumerRecord <?, ?> consumerRecord);
+  void receive (@Nonnull ConsumerRecord <?, ?> consumerRecord);
 }

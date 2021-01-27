@@ -55,7 +55,10 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.helger.commons.http.CHttpHeader;
+import com.helger.commons.mime.CMimeType;
 import com.helger.config.ConfigFactory;
+import com.helger.config.IConfig;
 
 @WebServlet ("/debug-consume")
 public class DebugConsumeServlet extends HttpServlet
@@ -87,8 +90,9 @@ public class DebugConsumeServlet extends HttpServlet
 
     LOGGER.info ("DebugConsumeServlet " + aReq.getRequestURL () + "?" + aReq.getQueryString ());
 
+    final IConfig aConfig = ConfigFactory.getDefaultConfig ();
     final Map <String, Object> aProps = new LinkedHashMap <> ();
-    aProps.put (ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, ConfigFactory.getDefaultConfig ().getAsString ("kafka.bootstrap-servers"));
+    aProps.put (ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, aConfig.getAsString ("kafka.bootstrap-servers"));
     aProps.put (ConsumerConfig.GROUP_ID_CONFIG, KafkaConsumerManager.TOPIC_GROUP_ID);
     aProps.put (ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
     aProps.put (ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false");
@@ -156,7 +160,7 @@ public class DebugConsumeServlet extends HttpServlet
 
     LOGGER.info ("DebugConsumeServlet end");
 
-    aResp.setHeader ("Content-Type", "text/html");
+    aResp.setHeader (CHttpHeader.CONTENT_TYPE, CMimeType.TEXT_HTML.getAsString ());
     aResp.getWriter ().println (aSB.toString ());
     aResp.getWriter ().close ();
   }
