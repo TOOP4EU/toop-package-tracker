@@ -34,7 +34,6 @@
 package eu.toop.tooppackagetracker;
 
 import java.io.IOException;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -116,7 +115,7 @@ public class DebugConsumeServlet extends HttpServlet
       topics.remove ("__consumer_offsets");
       final List <String> aSortedTopics = new ArrayList <> (topics.size ());
       aSortedTopics.addAll (topics.keySet ());
-      aSortedTopics.sort ( (o1, o2) -> o1.compareToIgnoreCase (o2));
+      aSortedTopics.sort (String::compareToIgnoreCase);
 
       aSB.append ("<h1>All " + aSortedTopics.size () + " topics</h1><ul>");
       for (final String sTopic : aSortedTopics)
@@ -134,7 +133,7 @@ public class DebugConsumeServlet extends HttpServlet
         aSB.append ("<h1>Consumed records (" + nRepeats + " repeats; " + nTimeout + " ms)</h1>");
         for (int i = 0; i < nRepeats; ++i)
         {
-          final ConsumerRecords <String, String> records = aConsumer.poll (Duration.ofMillis (nTimeout));
+          final ConsumerRecords <String, String> records = aConsumer.poll (nTimeout);
           for (final ConsumerRecord <String, String> record : records)
           {
             final String sRecord = "Consuming from topic = " +
