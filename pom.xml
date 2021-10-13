@@ -65,7 +65,7 @@
   </organization>
 
   <properties>
-    <vaadin.version>8.5.2</vaadin.version>
+    <vaadin.version>8.14.1</vaadin.version>
   </properties>
 
   <dependencyManagement>
